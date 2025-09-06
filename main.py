@@ -1,24 +1,25 @@
 from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
+from astrbot.api.provider import ProviderRequest
 
-@register("helloworld", "YourName", "一个简单的 Hello World 插件", "1.0.0")
-class MyPlugin(Star):
+
+@register(
+    "astrbot_plugin_quote_enhance",     # 插件ID
+    "Gemini & Ecaros11",                # 作者
+    "自动将引用消息的上下文加入LLM请求中",  # 插件描述
+    "1.0.0",                            # 版本號
+)
+class QuoteEnhancePlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
-
-    async def initialize(self):
-        """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
+        logger.info("引用增强插件已加载，监听 LLM 请求。")
     
-    # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
-    @filter.command("helloworld")
-    async def helloworld(self, event: AstrMessageEvent):
-        """这是一个 hello world 指令""" # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
-        user_name = event.get_sender_name()
-        message_str = event.message_str # 用户发的纯文本消息字符串
-        message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
-        logger.info(message_chain)
-        yield event.plain_result(f"Hello, {user_name}, 你发了 {message_str}!") # 发送一条纯文本消息
-
-    async def terminate(self):
-        """可选择实现异步的插件销毁方法，当插件被卸载/停用时会调用。"""
+    # 在调用 LLM 前，会触发
+    @filter.on_llm_request() 
+    async def my_custom_hook_1(self, event: AstrMessageEvent, req: ProviderRequest):
+        """
+        监听 on_llm_request 钩子，在 LLM 被调用前修改请求。
+        """
+        print(req) # 打印请求的文本
+        req.system_prompt += "参考引用消息的上下文"

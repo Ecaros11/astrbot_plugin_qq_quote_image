@@ -1,5 +1,5 @@
-name: helloworld # 这是你的插件的唯一识别名。
-desc: 这是 AstrBot 的默认插件，支持关键词回复。 # 插件简短描述
-version: v1.3 # 插件版本号。格式：v1.1.1 或者 v1.1
-author: Soulter # 作者
-repo: https://github.com/Soulter/helloworld # 插件的仓库地址
+name: QuoteEnhancePlugin # 这是你的插件的唯一识别名。
+desc: 这是一个引用增强插件，支持在 LLM 请求中自动加入引用消息的上下文。 # 插件简短描述
+version: v1.0.0 # 插件版本号。格式：v1.1.1 或者 v1.1
+author: Ecaros11 # 作者
+repo: https://github.com/Ecaros11/astrbot_plugin_qq_quote_image # 插件的仓库地址
