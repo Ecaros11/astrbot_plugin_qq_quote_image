@@ -23,3 +23,4 @@ class QuoteEnhancePlugin(Star):
         """
 
         req.system_prompt += "必须参考用户引用消息的上下文来进行回答"
+        logger.info(req)
