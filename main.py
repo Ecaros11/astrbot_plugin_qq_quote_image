@@ -21,5 +21,5 @@ class QuoteEnhancePlugin(Star):
         """
         监听 on_llm_request 钩子，在 LLM 被调用前修改请求。
         """
-        print(req) # 打印请求的文本
+        logger.info(req)
         req.system_prompt += "参考引用消息的上下文"
