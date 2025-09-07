@@ -22,5 +22,4 @@ class QuoteEnhancePlugin(Star):
         监听 on_llm_request 钩子，在 LLM 被调用前修改请求。
         """
 
-        req.system_prompt += "必须参考用户引用消息的上下文来进行回答"
-        logger.info(req)
+        logger.info(event.message_obj)
